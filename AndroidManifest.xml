@@ -1,0 +1,46 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.badlogic.androidgames.gamedev2d"
+    android:versionCode="1"
+    android:versionName="1.0" 
+    android:installLocation="preferExternal">
+
+    <uses-sdk
+        android:minSdkVersion="3"
+        android:targetSdkVersion="10" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <application android:icon="@drawable/ic_launcher" android:label="Chapter 7 - OpenGL Basics" android:theme="@style/AppTheme">
+        <activity android:name=".GameDev2DStarter"
+                  android:label="Chapter 8 - 2D Game Programming Tricks">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> 
+        <activity android:name=".CannonTest"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>                
+		<activity android:name=".CannonGravityTest"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>      
+        <activity android:name=".CollisionTest"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>  
+        <activity android:name=".MyGameTest"
+            	  android:screenOrientation="landscape" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>   
+        <activity android:name=".Camera2DTest"
+            	  android:screenOrientation="landscape" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".TextureAtlasTest"
+            	  android:screenOrientation="landscape" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>  
+        <activity android:name=".SpriteBatcherTest"
+            	  android:screenOrientation="landscape" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".AnimationTest"
+            	  android:screenOrientation="landscape" 
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".FontTest"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>                                                                                                                                                                                                                                                                                                                                                                                                                
+    </application>
+</manifest>
