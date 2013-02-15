@@ -15,13 +15,13 @@ import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.impl.GLGame;
 import com.badlogic.androidgames.framework.impl.GLGraphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-import com.badlogic.androidgames.framework.gl.Vertices;
 import com.badlogic.androidgames.framework.gl.Texture;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
 import com.badlogic.androidgames.framework.gl.SpriteBatcher;
 import com.badlogic.androidgames.framework.gl.Camera2D;
 import com.badlogic.androidgames.framework.math.OverlapTester;
 import com.badlogic.androidgames.framework.math.Vector2;
+import com.badlogic.androidgames.myitems.GLText;
 
 public class SpriteBatcherTest extends GLGame {
 	public Screen getStartScreen()
@@ -32,14 +32,15 @@ public class SpriteBatcherTest extends GLGame {
 	class SpriteBatcherScreen extends Screen {
 		Camera2D camera;
 		final int NUM_TARGETS = 20;
-		final float WORLD_WIDTH = 9.6f;
-		final float WORLD_HEIGHT = 4.8f;
+		final float WORLD_WIDTH = 820.0f;
+		final float WORLD_HEIGHT = 460.0f;
 		GLGraphics glGraphics;
 		GL10 gl;
 		Cannon cannon;
 		DynamicGameObject ball;
 		List<GameObject> targets;
 		SpatialHashGrid grid;
+		GLText glText;
 		
 		Texture texture;
 		
@@ -49,7 +50,7 @@ public class SpriteBatcherTest extends GLGame {
 		SpriteBatcher batcher;
 		
 		Vector2 touchPos = new Vector2();
-		Vector2 gravity = new Vector2(0, -10);
+		Vector2 gravity = new Vector2(0, -600);
 		
 		public SpriteBatcherScreen(Game game) {
 			super(game);
@@ -58,19 +59,22 @@ public class SpriteBatcherTest extends GLGame {
 			
 			camera = new Camera2D(glGraphics, WORLD_WIDTH, WORLD_HEIGHT);
 			
-			cannon = new Cannon(0, 0, 1, 0.5f);
-			ball = new DynamicGameObject(0, 0, 0.2f, 0.2f);
+			cannon = new Cannon(0, 0, 128, 64.0f);
+			ball = new DynamicGameObject(0, 0, 16.0f, 16.0f);
 			targets = new ArrayList<GameObject>(NUM_TARGETS);
-			grid = new SpatialHashGrid(WORLD_WIDTH, WORLD_HEIGHT, 2.5f);
+			grid = new SpatialHashGrid(WORLD_WIDTH, WORLD_HEIGHT, 64);
 			for(int i = 0; i < NUM_TARGETS; i++) {
 				GameObject target = new GameObject((float)Math.random() * WORLD_WIDTH,
 												   (float)Math.random() * WORLD_HEIGHT,
-												   0.5f, 0.5f);
+												   50.0f, 50.0f);
 				grid.insertStaticObject(target);
 				targets.add(target);
 			}
 			
-			batcher = new SpriteBatcher(gl, 100);			
+			batcher = new SpriteBatcher(gl, 100);	
+			glText = new GLText( gl, ((GLGame)game).getAssets() );
+
+		    glText.load( "ARIAL.TTF", 18, 2, 2 ); 
 		}
 		
 		@Override
@@ -94,9 +98,11 @@ public class SpriteBatcherTest extends GLGame {
 					ball.velocity.x = FloatMath.cos(radians) * ballSpeed;
 					ball.velocity.y = FloatMath.sin(radians) * ballSpeed;
 					
-					ball.bounds.lowerLeft.set(ball.position.x - 0.1f, ball.position.y - 0.1f);
+					ball.bounds.lowerLeft.set(ball.position.x - 8.0f, ball.position.y - 8.0f);
 				}
 			}
+			
+
 			
 			ball.velocity.add(gravity.x * deltaTime, gravity.y * deltaTime);
 			ball.position.add(ball.velocity.x * deltaTime, ball.velocity.y * deltaTime);
@@ -129,20 +135,24 @@ public class SpriteBatcherTest extends GLGame {
 			camera.setViewportAndMatrices();
 			
 			gl.glEnable(GL10.GL_BLEND);
-			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_SRC_ALPHA);
+			gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 			gl.glEnable(GL10.GL_TEXTURE_2D);
 			
+			glText.begin( 1.0f, 1.0f, 1.0f, 1.0f );         // Begin Text Rendering (Set Color WHITE)
+			glText.setScale(camera.zoom);
+	        glText.drawC( "Line Test", camera.position.x, camera.position.y + (camera.frustumHeight / 2) * camera.zoom - (20 * camera.zoom) );              // Draw Test String
+	        glText.end();                                   // End Text Rendering        
 			
 			batcher.beginBatch(texture);
 			
 			int len = targets.size();
 			for(int i = 0; i < len; i++) {
 				GameObject target = targets.get(i);
-				batcher.drawSprite(target.position.x, target.position.y, 0.5f, 0.5f, bobRegion);
+				batcher.drawSprite(target.position.x, target.position.y, 50.0f, 50.0f, bobRegion);
 			}
 
-			batcher.drawSprite(ball.position.x, ball.position.y, 0.2f, 0.2f, ballRegion);
-			batcher.drawSprite(cannon.position.x, cannon.position.y, 1, 0.5f, cannon.angle, cannonRegion);
+			batcher.drawSprite(ball.position.x, ball.position.y, 16.0f, 16.0f, ballRegion);
+			batcher.drawSprite(cannon.position.x, cannon.position.y, 128, 64.0f, cannon.angle, cannonRegion);
 			batcher.endBatch();
 		}
 

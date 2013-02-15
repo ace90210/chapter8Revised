@@ -41,6 +41,27 @@
             	  android:screenOrientation="landscape" 
                   android:configChanges="orientation|keyboard|keyboardHidden"/> 
         <activity android:name=".FontTest"
-                  android:configChanges="orientation|keyboard|keyboardHidden"/>                                                                                                                                                                                                                                                                                                                                                                                                                
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        <activity android:name=".PangBounceTest"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/> 
+        <activity android:name=".PangCollisionTest"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>  
+        <activity android:name=".PangSpliteTest"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>   
+        <activity android:name=".MathGame"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>   
+        <activity android:name=".PlayerTest"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        <activity android:name=".PangTouchControls"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>
+        <activity android:name=".PangV2"
+            	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>                                                                                                                                                                                                                                                                                                                                                                                                                      
     </application>
 </manifest>

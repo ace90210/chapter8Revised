@@ -4,8 +4,8 @@ public class Animation {
 	public static final int ANIMATION_LOOPING = 0;
 	public static final int ANIMATION_NONLOOPING = 1;
 	
-	final TextureRegion[] keyFrames;
-	final float frameDuration;
+	protected final TextureRegion[] keyFrames;
+	protected final float frameDuration;
 	
 	public Animation(float frameDuration, TextureRegion ... keyFrames) {
 		this.frameDuration = frameDuration;

@@ -138,4 +138,10 @@ public class Vector2 {
 		float distY = this.y - y;
 		return distX * distX + distY * distY;
 	}
+	
+	public float getCollisionAngle(Vector2 other) {
+		float x1 = this.x * other.x;
+		float y1 = this.y * other.y;
+		return (x1 + y1)/(len()*other.len());
+	}
 }

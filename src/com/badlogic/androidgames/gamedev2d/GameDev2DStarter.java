@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class GameDev2DStarter extends ListActivity {
-    String tests[] = { "CannonTest", "CannonGravityTest", "CollisionTest", "Camera2DTest", "TextureAtlasTest", "SpriteBatcherTest", "AnimationTest", "MyGameTest", "FontTest"
+    String tests[] = { "CannonTest", "CannonGravityTest", "CollisionTest", "Camera2DTest", "TextureAtlasTest", "SpriteBatcherTest", "AnimationTest", "MyGameTest",
+    					"FontTest", "PangBounceTest", "PangCollisionTest", "PangSpliteTest", "PlayerTest", "MathGame", "PangTouchControls", "PangV2" 
                      };
 
     public void onCreate(Bundle savedInstanceState) {
@@ -33,4 +34,6 @@ public class GameDev2DStarter extends ListActivity {
             e.printStackTrace();
         }
     }
+    
+    
 }

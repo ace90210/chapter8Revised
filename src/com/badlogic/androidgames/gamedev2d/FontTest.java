@@ -36,7 +36,7 @@ public class FontTest extends GLGame {
 		
 		public FontScreen(Game game) {
 			super(game);
-			ball = new DynamicGameObject(0, 0, 0.2f, 0.2f);
+			ball = new DynamicGameObject(50, 50, 50.0f, 50.0f);
 			glGraphics = ((GLGame)game).getGLGraphics();
 			gl = glGraphics.getGL();			
 			camera = new Camera2D(glGraphics, WORLD_WIDTH, WORLD_HEIGHT);
@@ -82,12 +82,7 @@ public class FontTest extends GLGame {
 	        glText.begin( 0.0f, 0.0f, 1.0f, 1.0f );         // Begin Text Rendering (Set Color BLUE)
 	        glText.draw( "More Lines...", 50, 150 );        // Draw Test String
 	        glText.draw( "The End.", 50, 150 + glText.getCharHeight() );  // Draw Test String
-	        glText.end();   
-	        
-	        batcher.beginBatch(texture);			
-			batcher.drawSprite(ball.position.x, ball.position.y, 50f, 50.0f, ballRegion);
-			batcher.endBatch();
-			
+	        glText.end(); 		
 		}
 
 		@Override

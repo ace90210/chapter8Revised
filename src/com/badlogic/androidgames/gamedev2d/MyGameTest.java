@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 
 import com.badlogic.androidgames.framework.Game;
+import com.badlogic.androidgames.myitems.GLText;
 import com.badlogic.androidgames.myitems.TexturedObject;
 import com.badlogic.androidgames.framework.SpatialHashGrid;
 import com.badlogic.androidgames.framework.GameObject;
@@ -38,6 +39,7 @@ public class MyGameTest extends GLGame {
 		GL10 gl;
 		TexturedObject p1, p2, ball;
 		SpatialHashGrid grid;
+		GLText glText;
 		
 		public MyGameScreen(Game game) {
 			super(game);
@@ -52,7 +54,9 @@ public class MyGameTest extends GLGame {
 			playerSpeed = 20.0f;
 			
 			grid = new SpatialHashGrid(WORLD_WIDTH, WORLD_HEIGHT, BAT_HEIGHT * 2);
-			
+			glText = new GLText( gl, ((GLGame)game).getAssets() );
+
+		    glText.load( "ARIAL.TTF", 14, 2, 2 ); 
 			
 			//make player 1 (bat 1)
 			Texture player1Texture = new Texture((GLGame)game, "bat1.png");
@@ -147,6 +151,11 @@ public class MyGameTest extends GLGame {
 		@Override
 		public void present(float deltaTime) {
 			gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			
+			glText.begin( 1.0f, 1.0f, 1.0f, 1.0f );         // Begin Text Rendering (Set Color WHITE)
+	        glText.draw( "Line Test", 350, 50 );              // Draw Test String
+	        glText.end();                                   // End Text Rendering
+	        
 			p1.bind();
 			gl.glLoadIdentity();
 			gl.glTranslatef(p1.position.x, p1.position.y, 0);
@@ -163,7 +172,7 @@ public class MyGameTest extends GLGame {
 			gl.glLoadIdentity();
 			gl.glTranslatef(ball.position.x, ball.position.y, 0);
 			ball.vertices.drawOptimal(GL10.GL_TRIANGLES, 0, 6);
-			ball.unbind();
+			ball.unbind();		
 		}
 		
 		@Override

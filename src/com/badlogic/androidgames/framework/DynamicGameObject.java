@@ -11,4 +11,11 @@ public class DynamicGameObject extends GameObject {
 		velocity = new Vector2();
 		accel = new Vector2();
 	}
+	
+	public DynamicGameObject(float x, float y, float radius) {
+		super(x, y, radius);
+		velocity = new Vector2();
+		accel = new Vector2();
+	}
+	
 }

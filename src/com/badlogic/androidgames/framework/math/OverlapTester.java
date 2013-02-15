@@ -20,25 +20,25 @@ public class OverlapTester {
 		}		
 	}
 	
-	public static boolean overlapCircleRectangle(Circle c, Rectangle r) {
-		float closestX = c.center.x;
-		float closestY = c.center.y;
-		
-		if(c.center.x > r.lowerLeft.x) {
-			closestX = r.lowerLeft.x;
-		}
-		else if(c.center.x > r.lowerLeft.x + r.width) {
-			closestX = r.lowerLeft.x + r.width;
-		}
-		
-		if(c.center.y < r.lowerLeft.y) {
-			closestY = r.lowerLeft.y;
-		}
-		else if(c.center.y > r.lowerLeft.y + r.height) {
-			closestY = r.lowerLeft.y + r.height;
-		}
-		
-		return c.center.distSquared(closestX, closestY) < c.radius * c.radius;
+    public static boolean overlapCircleRectangle(Circle c, Rectangle r) {
+	    float closestX = c.center.x;
+        float closestY = c.center.y;
+        
+        if(c.center.x < r.lowerLeft.x) {
+            closestX = r.lowerLeft.x; 
+        } 
+        else if(c.center.x > r.lowerLeft.x + r.width) {
+            closestX = r.lowerLeft.x + r.width;
+        }
+          
+        if(c.center.y < r.lowerLeft.y) {
+            closestY = r.lowerLeft.y;
+        } 
+        else if(c.center.y > r.lowerLeft.y + r.height) {
+            closestY = r.lowerLeft.y + r.height;
+        }
+        
+        return c.center.distSquared(closestX, closestY) < c.radius * c.radius;           
 	}
 	
 	public static boolean pointInCircle(Circle c, Vector2 p) {

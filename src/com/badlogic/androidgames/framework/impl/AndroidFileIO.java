@@ -42,4 +42,8 @@ public class AndroidFileIO implements FileIO {
     public SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
+    
+    public void dispose() {
+    	assets.close();
+    }
 }
