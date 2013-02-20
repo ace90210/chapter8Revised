@@ -32,15 +32,15 @@ public class TouchControls {
 		touchElements.add(new TouchElement(160,  94,  -64,  48, leftRegion));			//RIGHT
 		touchElements.get(3).setBoundsBufferRight(30);
 		
-		touchElements.add(new TouchElement(worldWidth - 192, 42, 70, 70, aRegion));		//A
-		touchElements.get(4).setBothBoundsBuffers(10);
+		touchElements.add(new TouchElement(worldWidth - 210, 42, 70, 70, aRegion));		//A
+		touchElements.get(4).setBothBoundsBuffers(20);
 		touchElements.get(4).setWait(250);
 		
 		touchElements.add(new TouchElement(worldWidth - 92, 42, 70, 70, bRegion));		//B
-		touchElements.get(5).setBothBoundsBuffers(10);
+		touchElements.get(5).setBothBoundsBuffers(20);
 		touchElements.get(5).setWait(250);
 		
-		touchElements.add(new TouchElement(worldWidth / 2, 42, 128, 50, startRegion));	//Start
+		touchElements.add(new TouchElement(worldWidth - 64, worldHeight - 42, 128, 50, startRegion));	//Start
 		touchElements.get(6).setBoundsWidthBuffer(20);
 		touchElements.get(6).setBoundsHeightBuffer(15);
 		touchElements.get(6).setWait(300);	

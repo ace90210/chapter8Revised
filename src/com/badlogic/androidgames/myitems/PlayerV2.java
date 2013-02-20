@@ -1,13 +1,20 @@
 package com.badlogic.androidgames.myitems;
 
 import com.badlogic.androidgames.framework.DynamicGameObject;
+import com.badlogic.androidgames.framework.GameObject;
 import com.badlogic.androidgames.framework.gl.TextureRegion;
 import com.badlogic.androidgames.framework.gl.Texture;
 import com.badlogic.androidgames.framework.gl.Animation;
+import com.badlogic.androidgames.framework.math.OverlapTester;
+import com.badlogic.androidgames.framework.math.Vector2;
+
+import java.util.List;
+import java.util.ArrayList;
 
 public class PlayerV2 extends DynamicGameObject {
 	private static int IMMUNE_LIMIT = 3; //seconds to remain immune after hit
 	private float walkingTime, immuneTime;
+	private Vector2 gravity;
 	private Animation walkingLeft, walkingRight, climbing;
 	private TextureRegion standing, shooting, hurt, currentState;
 	public int life;	
@@ -43,13 +50,14 @@ public class PlayerV2 extends DynamicGameObject {
 		immune = false;
 		immuneTime = IMMUNE_LIMIT;
 		this.currentState = standing;
+		this.gravity = new Vector2(0, 0);
 		this.playerState = PlayerState.STANDING;
-		this.lastState = playerState;
+		this.lastState = PlayerState.STANDING;
 		this.life = life;
 	}
 	
-	public void update(float deltaTime, PlayerState state) {
-		walkingTime += deltaTime;
+	public void update(float deltaTime, PlayerState state, List<Ladder> ladders, List<GameObject> ... objects) {
+		walkingTime += deltaTime;		
 		if(immune){
 			immuneTime -= deltaTime;
 			if(immuneTime <= 0) {
@@ -59,10 +67,29 @@ public class PlayerV2 extends DynamicGameObject {
 			}
 		} else {			
 			playerState = state;				
+		}	
+			
+		if(velocity.y <= 0) {
+			velocity.y = 0;
+		} else {
+			position.add((velocity.x -gravity.x) * deltaTime, (velocity.y - gravity.y) * deltaTime);
+			bounds.lowerLeft.add((velocity.x - gravity.x) * deltaTime, (velocity.y - gravity.y) * deltaTime);
+			velocity.add(gravity.x * 3 * deltaTime, gravity.y * 3 * deltaTime);
 		}
 		
-		position.add(velocity);
-		bounds.lowerLeft.add(velocity);	
+		boolean onFloor = onFloor(deltaTime, ladders, objects);
+		if(bounds.lowerLeft.y <= 0) {
+			position.y = bounds.height / 2;
+			bounds.lowerLeft.y = 0;
+			velocity.y = 0;
+			onFloor = true;
+		}
+		
+		if(!onFloor || velocity.y > 0) {
+			position.add(gravity.x * deltaTime, gravity.y * deltaTime);		
+			bounds.lowerLeft.add(gravity.x * deltaTime, gravity.y * deltaTime);
+		} 
+	
 		switch(state){
 			case SHOOTING: currentState = shooting; break;
 			case HURT: currentState = hurt; break;
@@ -86,6 +113,52 @@ public class PlayerV2 extends DynamicGameObject {
 					}
 		}
 		
+	}
+	
+	public void setVelocity(float x, float y) {
+		velocity.set(x, y);
+	}
+	
+	public boolean onFloor(float deltaTime,  List<Ladder> ladders, List<GameObject> ... objects) {
+		boolean onFloor = false;
+		if(bounds.lowerLeft.y <= 0) {
+			onFloor = true;
+		}
+		for(Ladder ladder: ladders) {
+			if(position.x - bounds.width / 4 < ladder.bounds.lowerLeft.x + ladder.bounds.width 		&&
+			   position.x + bounds.width / 4 > ladder.bounds.lowerLeft.x 							&&
+			   position.y - bounds.height / 2 > ladder.bounds.lowerLeft.y 							&&
+			   position.y + bounds.height / 2 < (ladder.position.y + ladder.bounds.height / 2) + bounds.height) {					
+			   onFloor = true;
+			}			
+		}	
+		for(List<GameObject> objectList: objects) {
+			for(GameObject object: objectList) {
+				if(position.x - bounds.width / 4 < object.bounds.lowerLeft.x + object.bounds.width 		&&
+				   position.x + bounds.width / 4 > object.bounds.lowerLeft.x 							&&
+				   position.y >= object.bounds.lowerLeft.y + object.bounds.height	&&
+				   position.y + bounds.height / 2 <= (object.position.y + object.bounds.height / 2) + bounds.height) {	
+					//if on ladder onFloor will be true
+					if(!onFloor) {
+						position.y = (object.position.y + object.bounds.height / 2) + bounds.height / 2;		//update position and bounds
+						bounds.lowerLeft.set(position.x - bounds.width / 2, position.y - bounds.height / 2);
+					}
+				   
+				   onFloor = true;
+				}			
+			}	
+		}
+		return onFloor;
+	}
+	
+	public void setGravity(float x, float y) {
+		this.gravity.x = x;
+		this.gravity.y = y;
+	}
+	
+	public void movePlayer(float x, float y, float deltaTime) {
+		position.add(x * deltaTime, y * deltaTime);
+		bounds.lowerLeft.add(x * deltaTime, y * deltaTime);
 	}
 	
 	public TextureRegion getKeyFrame() {

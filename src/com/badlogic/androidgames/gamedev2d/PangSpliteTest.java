@@ -84,26 +84,27 @@ public class PangSpliteTest extends GLGame {
 			game.getInput().getTouchEvents();
 			game.getInput().getKeyEvents();		
 			
-			
-			for(DynamicGameObject ball: balls) {
-				if(ball.position.x < ball.bounds.width / 2) {
-					ball.velocity.x = -ball.velocity.x;
-					ball.position.x = ball.bounds.width / 2;
-				}else if(ball.position.x > WORLD_WIDTH - ball.bounds.width / 2) {
-					ball.velocity.x = -ball.velocity.x;
-					ball.position.x = WORLD_WIDTH - ball.bounds.width / 2;
-				}
-				
-				if(ball.position.y < ball.bounds.height / 2) {					
-					ball.velocity.y = (-1 * ball.velocity.y) - (ball.bounds.width / 2 - ball.position.y);
-					ball.position.y = ball.bounds.width / 2;
-				} else {			
-					ball.velocity.add(gravity.x * deltaTime, gravity.y * deltaTime);
-				}
-				
-				ball.position.add(ball.velocity.x * deltaTime, ball.velocity.y * deltaTime);
-				ball.bounds.lowerLeft.add(ball.velocity.x * deltaTime, ball.velocity.y * deltaTime);
-			}						
+			synchronized(balls){
+				for(DynamicGameObject ball: balls) {
+					if(ball.position.x < ball.bounds.width / 2) {
+						ball.velocity.x = -ball.velocity.x;
+						ball.position.x = ball.bounds.width / 2;
+					}else if(ball.position.x > WORLD_WIDTH - ball.bounds.width / 2) {
+						ball.velocity.x = -ball.velocity.x;
+						ball.position.x = WORLD_WIDTH - ball.bounds.width / 2;
+					}
+					
+					if(ball.position.y < ball.bounds.height / 2) {					
+						ball.velocity.y = (-1 * ball.velocity.y) - (ball.bounds.width / 2 - ball.position.y);
+						ball.position.y = ball.bounds.width / 2;
+					} else {			
+						ball.velocity.add(gravity.x * deltaTime, gravity.y * deltaTime);
+					}
+					
+					ball.position.add(ball.velocity.x * deltaTime, ball.velocity.y * deltaTime);
+					ball.bounds.lowerLeft.add(ball.velocity.x * deltaTime, ball.velocity.y * deltaTime);
+				}		
+			}
 		}
 		
 		

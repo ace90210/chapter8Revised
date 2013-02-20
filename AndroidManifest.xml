@@ -62,6 +62,9 @@
                   android:configChanges="orientation|keyboard|keyboardHidden"/>
         <activity android:name=".PangV2"
             	  android:screenOrientation="landscape"
+                  android:configChanges="orientation|keyboard|keyboardHidden"/>        
+        <activity android:name=".PangPowerUps"
+            	  android:screenOrientation="landscape"
                   android:configChanges="orientation|keyboard|keyboardHidden"/>                                                                                                                                                                                                                                                                                                                                                                                                                      
     </application>
 </manifest>
